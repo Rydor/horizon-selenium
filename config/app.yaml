@@ -1,0 +1,4 @@
+horizon:
+  username: admin
+  horizon_password: 36002a21392e9c2485edde800f25
+  external_lb_vip_address: 104.130.225.160
