@@ -28,10 +28,10 @@ class HorizonBase(unittest.TestCase):
             :service_args: configuration management for phantomjs
              This is used for testing headless and locally.
             """
-            # service_args = ['--proxy=localhost:9999', '--proxy-type=socks5',
-            #  '--ignore-ssl-errors=true', '--ssl-protocol=any']
-            service_args = ['--ignore-ssl-errors=true', '--ssl-protocol=any']
-            self.driver = webdriver.PhantomJS(service_args=service_args)
+            # service_args = ['--proxy=localhost:9999', '--proxy-type=socks5'
+
+            # service_args = ['--ignore-ssl-errors=true', '--ssl-protocol=any']
+            # self.driver = webdriver.PhantomJS(service_args=service_args)
 
             """
             FIREFOX
@@ -45,8 +45,9 @@ class HorizonBase(unittest.TestCase):
             # })
             # caps = DesiredCapabilities.FIREFOX
             # caps["marionette"] = True
-            # # self.driver = webdriver.Firefox(proxy=proxy)
+            # self.driver = webdriver.Firefox(proxy=proxy)
             # self.driver = webdriver.Firefox(capabilities=caps)
+            self.driver = webdriver.Firefox()
 
             """
             This will create the session within which all actions take place
@@ -79,34 +80,34 @@ class HorizonBase(unittest.TestCase):
                 "Setup failed... {}".format(e), exc_info=True)
             raise
 
-    # def test_login(self):
-    #     title = self.driver.title
-    #     self.assertIn('Projects - OpenStack Dashboard', title)
-    #
-    # def test_sidebar(self):
-    #     try:
-    #         project_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-project"]')
-    #         admin_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-admin"]')
-    #         identity_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-identity"]')
-    #         developer_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-developer"]')
-    #         panels = [project_panel, admin_panel, identity_panel, developer_panel]
-    #         for i in panels:
-    #             i.click()
-    #             if i == project_panel:
-    #                 self.assertIn("Project", i.text)
-    #             elif i == admin_panel:
-    #                 self.assertIn("Admin", i.text)
-    #             elif i == identity_panel:
-    #                 self.assertIn("Identity", i.text)
-    #             elif i == developer_panel:
-    #                 self.assertIn("Developer", i.text)
-    #             else:
-    #                 print "Unhandled use case"
-    #     except Exception, e:
-    #         self.driver.save_screenshot('sidebar.png')
-    #         logging.error(
-    #             "Sidebar test failed... {}".format(e), exc_info=True)
-    #         raise
+    def test_login(self):
+        title = self.driver.title
+        self.assertIn('Projects - OpenStack Dashboard', title)
+
+    def test_sidebar(self):
+        try:
+            project_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-project"]')
+            admin_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-admin"]')
+            identity_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-identity"]')
+            developer_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-developer"]')
+            panels = [project_panel, admin_panel, identity_panel, developer_panel]
+            for i in panels:
+                i.click()
+                if i == project_panel:
+                    self.assertIn("Project", i.text)
+                elif i == admin_panel:
+                    self.assertIn("Admin", i.text)
+                elif i == identity_panel:
+                    self.assertIn("Identity", i.text)
+                elif i == developer_panel:
+                    self.assertIn("Developer", i.text)
+                else:
+                    print "Unhandled use case"
+        except Exception, e:
+            self.driver.save_screenshot('sidebar.png')
+            logging.error(
+                "Sidebar test failed... {}".format(e), exc_info=True)
+            raise
 
     def test_create_instance(self):
         try:
@@ -121,11 +122,10 @@ class HorizonBase(unittest.TestCase):
             select2 = Select(self.driver.find_element_by_id('id_image_id'))
             select2.select_by_index(1)
             self.driver.find_element_by_class_name("btn-primary").submit()
-            self.driver.save_screenshot("wtf.png")
-            # element = WebDriverWait(self.driver, 60).until(
-            #     ec.text_to_be_present_in_element((By.TAG_NAME, "tr"),
-            #                                      "Running"))
-            # elem = WebDriverWait(self.driver, 60)
+            element = WebDriverWait(self.driver, 60).until(
+                ec.text_to_be_present_in_element((By.CSS_SELECTOR, "tr.ajax-update"),
+                                                 "Running"))
+            self.driver.save_screenshot('good.png')
         except Exception, e:
             self.driver.save_screenshot('create_instance.png')
             logging.error(
