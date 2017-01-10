@@ -89,8 +89,8 @@ class HorizonBase(unittest.TestCase):
             project_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-project"]')
             admin_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-admin"]')
             identity_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-identity"]')
-            developer_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-developer"]')
-            panels = [project_panel, admin_panel, identity_panel, developer_panel]
+            #developer_panel = self.driver.find_element_by_css_selector('a[href="#sidebar-accordion-developer"]')
+            panels = [project_panel, admin_panel, identity_panel]
             for i in panels:
                 i.click()
                 if i == project_panel:
@@ -125,7 +125,11 @@ class HorizonBase(unittest.TestCase):
             element = WebDriverWait(self.driver, 60).until(
                 ec.text_to_be_present_in_element((By.CSS_SELECTOR, "tr.ajax-update"),
                                                  "Running"))
-            self.driver.save_screenshot('good.png')
+            """
+            Uncomment self.driver.save_screenshot('good.png') in order to
+            troubleshoot instance creation errors.
+            """
+            # self.driver.save_screenshot('good.png')
         except Exception, e:
             self.driver.save_screenshot('create_instance.png')
             logging.error(
