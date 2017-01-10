@@ -30,8 +30,8 @@ class HorizonBase(unittest.TestCase):
             """
             # service_args = ['--proxy=localhost:9999', '--proxy-type=socks5'
 
-            # service_args = ['--ignore-ssl-errors=true', '--ssl-protocol=any']
-            # self.driver = webdriver.PhantomJS(service_args=service_args)
+            service_args = ['--ignore-ssl-errors=true', '--ssl-protocol=any']
+            self.driver = webdriver.PhantomJS(service_args=service_args)
 
             """
             FIREFOX
@@ -47,18 +47,21 @@ class HorizonBase(unittest.TestCase):
             # caps["marionette"] = True
             # self.driver = webdriver.Firefox(proxy=proxy)
             # self.driver = webdriver.Firefox(capabilities=caps)
-            self.driver = webdriver.Firefox()
+            # self.driver = webdriver.Firefox()
 
             """
             This will create the session within which all actions take place
             """
-            self.driver.set_window_size(1920, 1080)
+            # self.driver.set_window_size(1920, 1080)
+            self.driver.maximize_window()
             conf = config.app['horizon']
             user = conf['username']
             passwd = conf['horizon_password']
             ext_vip = conf['external_lb_vip_address']
             url = "https://{0}/".format(ext_vip)
             self.driver.get(url)
+            self.driver.implicitly_wait(5)
+            self.driver.save_screenshot('setup.png')
             userbox = self.driver.find_element_by_id('id_username')
             passbox = self.driver.find_element_by_id('id_password')
             userbox.send_keys(user)
