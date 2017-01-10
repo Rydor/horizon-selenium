@@ -60,8 +60,6 @@ class HorizonBase(unittest.TestCase):
             ext_vip = conf['external_lb_vip_address']
             url = "https://{0}/".format(ext_vip)
             self.driver.get(url)
-            self.driver.implicitly_wait(5)
-            self.driver.save_screenshot('setup.png')
             userbox = self.driver.find_element_by_id('id_username')
             passbox = self.driver.find_element_by_id('id_password')
             userbox.send_keys(user)
