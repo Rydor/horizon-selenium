@@ -1,12 +1,7 @@
-class BasePage(object):
-
-    def __init__(self, driver):
-        self.driver = driver
-        self.driver.implicitly_wait(1)
-        self.timeout = 30
+import basepage
 
 
-class LoginPage(BasePage):
+class LoginPage(basepage.BasePage):
 
     def set_username(self, username):
         userbox = self.driver.find_element_by_id('id_username')
